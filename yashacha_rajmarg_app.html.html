@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>यशाचा राजमार्ग | स्पर्धा परीक्षा App</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#1a4f8a; --blue2:#185fa5; --blue-l:#e6f1fb;
+  --green:#0f6e56; --green-l:#e1f5ee;
+  --amber:#854f0b; --amber-l:#faeeda;
+  --coral:#993c1d; --coral-l:#faece7;
+  --purple:#534ab7; --purple-l:#eeedfe;
+  --bg:#f0f4fa; --card:#ffffff; --text:#1a1a2e; --muted:#6b7280;
+  --border:#e5e7eb; --r:14px; --sh:0 2px 12px rgba(26,79,138,.08);
+  --sh2:0 8px 32px rgba(26,79,138,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--blue);height:56px;display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.25);z-index:200}
+.topbar .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
+.logo-ic{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-tx .t1{color:#fff;font-size:14px;font-weight:700;line-height:1.1}
+.logo-tx .t2{color:rgba(255,255,255,.6);font-size:9px}
+.search-wrap{flex:1;max-width:420px;position:relative}
+.search-wrap input{width:100%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 14px;color:#fff;font-size:13px;font-family:inherit;outline:none}
+.search-wrap input::placeholder{color:rgba(255,255,255,.55)}
+.search-wrap input:focus{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.4)}
+#sdrop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border-radius:10px;box-shadow:var(--sh2);display:none;max-height:280px;overflow-y:auto;z-index:500}
+.si{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px;color:var(--text);cursor:pointer;border-bottom:1px solid var(--border);text-decoration:none}
+.si:hover{background:var(--blue-l)}
+.si:last-child{border:none}
+.topbar-right{margin-left:auto;display:flex;gap:6px}
+.tb-btn{background:rgba(255,255,255,.13);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+.tb-btn:hover{background:rgba(255,255,255,.22)}
+
+/* ── LAYOUT ── */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;transition:width .25s}
+.sidebar.collapsed{width:0;overflow:hidden}
+.nav-section{padding:12px 10px 4px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px;font-size:13px;font-weight:500;color:var(--text);cursor:pointer;border-radius:8px;margin:1px 6px;text-decoration:none;transition:all .15s}
+.nav-item:hover{background:var(--blue-l);color:var(--blue2)}
+.nav-item.active{background:var(--blue);color:#fff}
+.nav-item .ni{font-size:16px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:6px 14px}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── HOME PAGE ── */
+.home-page{flex:1;overflow-y:auto;padding:24px}
+.hero-home{background:linear-gradient(135deg,var(--blue) 0%,var(--green) 100%);border-radius:var(--r);padding:28px 28px 24px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero-home::after{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero-home h1{color:#fff;font-size:22px;font-weight:700;margin-bottom:6px;position:relative}
+.hero-home p{color:rgba(255,255,255,.8);font-size:13px;margin-bottom:18px;position:relative}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
+.hs{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;text-align:center}
+.hs .n{color:#fff;font-size:20px;font-weight:700}
+.hs .l{color:rgba(255,255,255,.7);font-size:10px}
+.sec-title{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:28px}
+.hcard{background:#fff;border-radius:var(--r);padding:16px;border:1px solid var(--border);box-shadow:var(--sh);cursor:pointer;transition:all .2s;text-align:center}
+.hcard:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--blue)}
+.hcard .ic{font-size:28px;margin-bottom:8px}
+.hcard .ct{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.hcard .cs{font-size:11px;color:var(--muted)}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{padding:7px 16px;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .2s;white-space:nowrap}
+.cb{background:var(--blue-l);color:var(--blue2)}.cb:hover{background:var(--blue);color:#fff}
+.cg{background:var(--green-l);color:var(--green)}.cg:hover{background:var(--green);color:#fff}
+.ca{background:var(--amber-l);color:var(--amber)}.ca:hover{background:var(--amber);color:#fff}
+.cc{background:var(--coral-l);color:var(--coral)}.cc:hover{background:var(--coral);color:#fff}
+.cp{background:var(--purple-l);color:var(--purple)}.cp:hover{background:var(--purple);color:#fff}
+
+/* ── CONTENT VIEWER (iframe) ── */
+.viewer-page{flex:1;display:none;flex-direction:column;overflow:hidden}
+.viewer-page.active{display:flex}
+.viewer-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.vb-back{background:var(--blue-l);color:var(--blue2);border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.vb-title{font-size:14px;font-weight:600;flex:1}
+.vb-ext{background:var(--green-l);color:var(--green);border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.viewer-frame{flex:1;border:none;background:#f9f9f9}
+.viewer-blocked{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;text-align:center}
+.viewer-blocked .bi{font-size:56px}
+.viewer-blocked h2{font-size:18px;font-weight:700;color:var(--text)}
+.viewer-blocked p{font-size:14px;color:var(--muted);max-width:400px;line-height:1.6}
+.viewer-blocked a{background:var(--blue);color:#fff;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px}
+
+/* ── NOTES PAGE ── */
+.notes-page{flex:1;display:none;flex-direction:column;overflow:hidden}
+.notes-page.active{display:flex}
+.notes-top{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.notes-body{display:flex;flex:1;overflow:hidden}
+.notes-list{width:260px;border-right:1px solid var(--border);overflow-y:auto;background:#fff;flex-shrink:0}
+.notes-group{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;padding:10px 14px 4px;letter-spacing:.6px}
+.note-item{padding:11px 14px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s;color:var(--text)}
+.note-item:hover{background:var(--blue-l)}
+.note-item.active{background:var(--blue);color:#fff}
+.note-item .ni2{font-size:10px;color:var(--muted);margin-top:2px}
+.note-item.active .ni2{color:rgba(255,255,255,.7)}
+.notes-content{flex:1;overflow-y:auto;padding:28px;background:var(--bg)}
+.note-card{background:#fff;border-radius:var(--r);padding:28px;border:1px solid var(--border);box-shadow:var(--sh);max-width:800px}
+.note-card h2{font-size:20px;font-weight:700;color:var(--blue);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--blue-l)}
+.note-card h3{font-size:15px;font-weight:700;color:var(--text);margin:20px 0 10px}
+.note-card p{font-size:14px;color:var(--text);line-height:1.8;margin-bottom:12px}
+.note-card ul{padding-left:20px;margin-bottom:12px}
+.note-card li{font-size:14px;color:var(--text);line-height:1.9;margin-bottom:4px}
+.note-card .tag{display:inline-block;background:var(--blue-l);color:var(--blue2);font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;margin:2px}
+.imp{background:#fff8e1;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;color:#92400e}
+.note-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.note-table th{background:var(--blue);color:#fff;padding:8px 12px;text-align:left;font-weight:600}
+.note-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.note-table tr:nth-child(even) td{background:var(--blue-l)}
+
+/* ── QUIZ PAGE ── */
+.quiz-page{flex:1;display:none;flex-direction:column;overflow:hidden}
+.quiz-page.active{display:flex}
+.quiz-top{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.quiz-body{flex:1;overflow-y:auto;padding:24px;display:flex;gap:20px}
+.quiz-sidebar{width:220px;flex-shrink:0}
+.quiz-main{flex:1;max-width:700px}
+.quiz-cat{background:#fff;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh)}
+.quiz-cat-h{padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.quiz-sub{padding:6px 8px;display:none}
+.quiz-sub.open{display:block}
+.quiz-sub-btn{width:100%;text-align:left;background:var(--blue-l);color:var(--blue2);border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;margin-bottom:4px;font-family:inherit;transition:all .15s}
+.quiz-sub-btn:hover{background:var(--blue);color:#fff}
+.quiz-sub-btn.active{background:var(--blue);color:#fff}
+
+/* quiz card */
+.qcard{background:#fff;border-radius:var(--r);padding:24px;border:1px solid var(--border);box-shadow:var(--sh);margin-bottom:0}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.q-num{font-size:12px;font-weight:700;color:var(--muted)}
+.q-score{font-size:13px;font-weight:700;color:var(--blue)}
+.q-timer{background:var(--coral-l);color:var(--coral);padding:4px 12px;border-radius:50px;font-size:13px;font-weight:700}
+.q-text{font-size:16px;font-weight:600;color:var(--text);margin-bottom:20px;line-height:1.6}
+.q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.qopt{background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;cursor:pointer;transition:all .18s;text-align:left;font-family:inherit;font-weight:500;color:var(--text)}
+.qopt:hover:not(:disabled){background:var(--blue-l);border-color:var(--blue2)}
+.qopt.correct{background:#e8f5e9;border-color:#4caf50;color:#2e7d32}
+.qopt.wrong{background:#ffebee;border-color:#ef5350;color:#c62828}
+.q-explain{background:var(--green-l);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--green);margin-bottom:16px;display:none;line-height:1.6}
+.q-explain.show{display:block}
+.q-nav{display:flex;gap:10px}
+.qbtn{background:var(--blue);color:#fff;border:none;padding:11px 24px;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s}
+.qbtn:hover{background:var(--blue2);transform:scale(1.02)}
+.qbtn.sec{background:var(--bg);color:var(--text);border:2px solid var(--border)}
+.qbtn.sec:hover{border-color:var(--blue);color:var(--blue)}
+.quiz-start{text-align:center;padding:40px 20px}
+.quiz-start .si2{font-size:64px;margin-bottom:16px}
+.quiz-start h2{font-size:22px;font-weight:700;margin-bottom:8px}
+.quiz-start p{font-size:14px;color:var(--muted);margin-bottom:24px}
+.result-card{background:#fff;border-radius:var(--r);padding:32px;text-align:center;border:1px solid var(--border);box-shadow:var(--sh)}
+.result-card .ri{font-size:72px;margin-bottom:16px}
+.result-card h2{font-size:24px;font-weight:700;margin-bottom:8px}
+.result-card .score-big{font-size:48px;font-weight:700;color:var(--blue)}
+.prog-bar{background:var(--border);border-radius:50px;height:8px;margin:16px 0;overflow:hidden}
+.prog-fill{background:var(--blue);height:100%;border-radius:50px;transition:width .4s}
+
+/* ── STATE BOARD PAGE ── */
+.sb-page{flex:1;display:none;flex-direction:column;overflow:hidden}
+.sb-page.active{display:flex}
+.sb-body{display:flex;flex:1;overflow:hidden}
+.sb-list{width:220px;background:#fff;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.sb-item{padding:12px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;color:var(--text);transition:background .15s}
+.sb-item:hover{background:var(--blue-l)}
+.sb-item.active{background:var(--blue);color:#fff}
+.sb-content{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
+.sb-frame-wrap{background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh);height:calc(100vh - 200px);display:flex;flex-direction:column}
+.sb-frame-bar{padding:10px 16px;background:var(--blue);color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sb-iframe{flex:1;border:none}
+
+/* ── PAPERS PAGE ── */
+.papers-page{flex:1;display:none;flex-direction:column;overflow:hidden}
+.papers-page.active{display:flex}
+.papers-body{flex:1;overflow-y:auto;padding:24px}
+.papers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.pcard{background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--border);box-shadow:var(--sh);cursor:pointer;transition:all .2s}
+.pcard:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--blue)}
+.pcard-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pcard-ic{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.pcard-info strong{font-size:14px;font-weight:700;display:block}
+.pcard-info span{font-size:12px;color:var(--muted)}
+.pcard-tags{display:flex;gap:6px;flex-wrap:wrap}
+.ptag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px}
+.open-btn{width:100%;margin-top:14px;background:var(--blue);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.open-btn:hover{background:var(--blue2)}
+
+/* ── PDF VIEWER ── */
+.pdf-viewer{flex:1;display:none;flex-direction:column;overflow:hidden}
+.pdf-viewer.active{display:flex}
+.pdf-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pdf-frame{flex:1;border:none}
+
+/* MOBILE */
+.menu-btn{display:none;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;margin-right:4px}
+@media(max-width:768px){
+  .sidebar{position:fixed;top:56px;left:0;bottom:0;z-index:150;width:240px;transform:translateX(-100%);transition:transform .25s;box-shadow:var(--sh2)}
+  .sidebar.open{transform:translateX(0)}
+  .menu-btn{display:block}
+  .quiz-body{flex-direction:column}
+  .quiz-sidebar{width:100%}
+  .notes-list{width:200px}
+  .papers-grid{grid-template-columns:1fr}
+  .sb-list{width:180px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <a class="logo" href="#" onclick="showPage('home')">
+    <div class="logo-ic">🏆</div>
+    <div class="logo-tx">
+      <div class="t1">यशाचा राजमार्ग</div>
+      <div class="t2">स्पर्धा परीक्षा App</div>
+    </div>
+  </a>
+  <div class="search-wrap">
+    <input type="text" placeholder="Notes, Papers, Quiz शोधा…" id="sInput" oninput="doSearch(this.value)" onblur="setTimeout(()=>document.getElementById('sdrop').style.display='none',200)">
+    <div id="sdrop"></div>
+  </div>
+  <div class="topbar-right">
+    <button class="tb-btn" onclick="showPage('quiz')">🎯 Quiz</button>
+    <button class="tb-btn" onclick="showPage('notes')">📖 Notes</button>
+  </div>
+</div>
+
+<!-- ══ BODY ══ -->
+<div class="app-body">
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar" id="sidebar">
+  <div class="nav-section">मुख्य</div>
+  <div class="nav-item active" id="nav-home" onclick="showPage('home')"><span class="ni">🏠</span> होम</div>
+  <div class="nav-item" id="nav-notes" onclick="showPage('notes')"><span class="ni">📖</span> Notes</div>
+  <div class="nav-item" id="nav-quiz" onclick="showPage('quiz')"><span class="ni">🎯</span> Quiz / Test</div>
+  <div class="nav-item" id="nav-papers" onclick="showPage('papers')"><span class="ni">📝</span> Question Papers</div>
+  <div class="nav-item" id="nav-sb" onclick="showPage('sb')"><span class="ni">🏫</span> State Board Books</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">विषय</div>
+  <div class="nav-item" onclick="openNote('history','mh1')"><span class="ni">🏛️</span> इतिहास</div>
+  <div class="nav-item" onclick="openNote('geography','geo1')"><span class="ni">🗺️</span> भूगोल</div>
+  <div class="nav-item" onclick="openNote('polity','pol1')"><span class="ni">⚖️</span> राज्यशास्त्र</div>
+  <div class="nav-item" onclick="openNote('science','sci1')"><span class="ni">🔬</span> विज्ञान</div>
+  <div class="nav-item" onclick="openNote('economics','eco1')"><span class="ni">💰</span> अर्थशास्त्र</div>
+  <div class="nav-item" onclick="openNote('marathi','mar1')"><span class="ni">🔤</span> मराठी व्याकरण</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">परीक्षा</div>
+  <div class="nav-item" onclick="startQuiz('mpsc')"><span class="ni">📘</span> MPSC Quiz</div>
+  <div class="nav-item" onclick="startQuiz('police')"><span class="ni">👮</span> Police Bharti Quiz</div>
+  <div class="nav-item" onclick="startQuiz('gk')"><span class="ni">⭐</span> GK Quiz</div>
+</div>
+
+<!-- ══ MAIN AREA ══ -->
+<div class="main" id="mainArea">
+
+<!-- HOME -->
+<div class="home-page active" id="page-home">
+  <div style="flex:1;overflow-y:auto;padding:24px">
+    <div class="hero-home">
+      <h1>🏆 यशाचा राजमार्ग</h1>
+      <p>स्पर्धेच्या सागरात यशाचा राजमार्ग तुमच्या सोबत आहे — सर्व काही एकाच ठिकाणी</p>
+      <div class="hero-stats">
+        <div class="hs"><div class="n">500+</div><div class="l">Notes</div></div>
+        <div class="hs"><div class="n">10</div><div class="l">Subjects</div></div>
+        <div class="hs"><div class="n">200+</div><div class="l">Quiz Q's</div></div>
+        <div class="hs"><div class="n">Free</div><div class="l">Forever</div></div>
+      </div>
+    </div>
+
+    <div class="sec-title">📚 विषयानुसार Notes</div>
+    <div class="card-grid">
+      <div class="hcard" onclick="openNote('history','mh1')"><div class="ic">🏛️</div><div class="ct">इतिहास</div><div class="cs">History Notes</div></div>
+      <div class="hcard" onclick="openNote('geography','geo1')"><div class="ic">🗺️</div><div class="ct">भूगोल</div><div class="cs">Geography Notes</div></div>
+      <div class="hcard" onclick="openNote('polity','pol1')"><div class="ic">⚖️</div><div class="ct">राज्यशास्त्र</div><div class="cs">Polity Notes</div></div>
+      <div class="hcard" onclick="openNote('science','sci1')"><div class="ic">🔬</div><div class="ct">विज्ञान</div><div class="cs">Science Notes</div></div>
+      <div class="hcard" onclick="openNote('economics','eco1')"><div class="ic">💰</div><div class="ct">अर्थशास्त्र</div><div class="cs">Economics Notes</div></div>
+      <div class="hcard" onclick="openNote('marathi','mar1')"><div class="ic">🔤</div><div class="ct">मराठी व्याकरण</div><div class="cs">Marathi Grammar</div></div>
+    </div>
+
+    <div class="sec-title">🎯 Quick Quiz सुरू करा</div>
+    <div class="chip-row">
+      <div class="chip cb" onclick="startQuiz('mpsc')">📘 MPSC Quiz</div>
+      <div class="chip cc" onclick="startQuiz('police')">👮 Police Bharti</div>
+      <div class="chip cg" onclick="startQuiz('gk')">⭐ सामान्य ज्ञान</div>
+      <div class="chip ca" onclick="startQuiz('history')">🏛️ इतिहास</div>
+      <div class="chip cp" onclick="startQuiz('science')">🔬 विज्ञान</div>
+    </div>
+
+    <div class="sec-title">📝 Question Papers</div>
+    <div class="chip-row">
+      <div class="chip cb" onclick="showPage('papers')">सर्व Papers पहा</div>
+      <div class="chip cg" onclick="openPDF('talathi','Talathi 2023 Papers','https://drive.google.com/file/d/1SoS7OssiPVFKDTNCXTdP-JQ-KrfgBGNw/preview')">📄 Talathi 2023</div>
+      <div class="chip ca" onclick="openPDF('fg','Forest Guard 2023','https://drive.google.com/file/d/1SoS7OssiPVFKDTNCXTdP-JQ-KrfgBGNw/preview')">🌲 Forest Guard</div>
+      <div class="chip cc" onclick="openPDF('pcmc','PCMC 2023','https://drive.google.com/file/d/1nUfQcLdmqV7djCTrxpsEsNoI39s4K1wq/preview')">🏙️ PCMC 2023</div>
+    </div>
+
+    <div class="sec-title">🏫 State Board Books</div>
+    <div class="chip-row">
+      <div class="chip cb" onclick="showSB('history')">🏛️ इतिहास</div>
+      <div class="chip cg" onclick="showSB('geography')">🗺️ भूगोल</div>
+      <div class="chip ca" onclick="showSB('science')">🔬 विज्ञान</div>
+      <div class="chip cc" onclick="showSB('polity')">⚖️ राज्यशास्त्र</div>
+      <div class="chip cp" onclick="showSB('economics')">💰 अर्थशास्त्र</div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES PAGE -->
+<div class="notes-page" id="page-notes">
+  <div class="notes-top">
+    <button class="vb-back" onclick="showPage('home')">← होम</button>
+    <span style="font-size:15px;font-weight:700">📖 Subject Notes</span>
+  </div>
+  <div class="notes-body">
+    <div class="notes-list" id="notesList"></div>
+    <div class="notes-content"><div class="note-card" id="noteContent"></div></div>
+  </div>
+</div>
+
+<!-- QUIZ PAGE -->
+<div class="quiz-page" id="page-quiz">
+  <div class="quiz-top">
+    <button class="vb-back" onclick="showPage('home')">← होम</button>
+    <span style="font-size:15px;font-weight:700">🎯 Quiz & Test Series</span>
+    <span id="quizTopInfo" style="margin-left:auto;font-size:13px;color:var(--muted)"></span>
+  </div>
+  <div class="quiz-body">
+    <div class="quiz-sidebar">
+      <div class="quiz-cat">
+        <div class="quiz-cat-h" onclick="toggleCat(this)">📘 MPSC <span>▼</span></div>
+        <div class="quiz-sub open">
+          <button class="quiz-sub-btn" onclick="startQuiz('mpsc')">MPSC General</button>
+          <button class="quiz-sub-btn" onclick="startQuiz('history')">इतिहास</button>
+          <button class="quiz-sub-btn" onclick="startQuiz('geography')">भूगोल</button>
+          <button class="quiz-sub-btn" onclick="startQuiz('polity')">राज्यशास्त्र</button>
+        </div>
+      </div>
+      <div class="quiz-cat">
+        <div class="quiz-cat-h" onclick="toggleCat(this)">👮 Police <span>▼</span></div>
+        <div class="quiz-sub">
+          <button class="quiz-sub-btn" onclick="startQuiz('police')">Police General</button>
+          <button class="quiz-sub-btn" onclick="startQuiz('gk')">सामान्य ज्ञान</button>
+        </div>
+      </div>
+      <div class="quiz-cat">
+        <div class="quiz-cat-h" onclick="toggleCat(this)">🔬 Science <span>▼</span></div>
+        <div class="quiz-sub">
+          <button class="quiz-sub-btn" onclick="startQuiz('science')">General Science</button>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-main" id="quizMain">
+      <div class="quiz-start">
+        <div class="si2">🎯</div>
+        <h2>Quiz सुरू करा</h2>
+        <p>डाव्या बाजूने विषय निवडा किंवा खाली क्लिक करा</p>
+        <div class="chip-row" style="justify-content:center;margin-top:8px">
+          <div class="chip cb" onclick="startQuiz('mpsc')">MPSC</div>
+          <div class="chip cc" onclick="startQuiz('police')">Police</div>
+          <div class="chip cg" onclick="startQuiz('gk')">GK</div>
+          <div class="chip ca" onclick="startQuiz('history')">इतिहास</div>
+          <div class="chip cp" onclick="startQuiz('science')">विज्ञान</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAPERS PAGE -->
+<div class="papers-page" id="page-papers">
+  <div class="notes-top" style="flex-shrink:0">
+    <button class="vb-back" onclick="showPage('home')">← होम</button>
+    <span style="font-size:15px;font-weight:700">📝 Question Papers</span>
+  </div>
+  <div class="papers-body">
+    <div class="sec-title">उपलब्ध Question Papers</div>
+    <div class="papers-grid">
+      <div class="pcard" onclick="openPDF('fg','Forest Guard 2023 — All Shifts','https://drive.google.com/file/d/1SoS7OssiPVFKDTNCXTdP-JQ-KrfgBGNw/preview')">
+        <div class="pcard-top"><div class="pcard-ic" style="background:var(--green-l)">🌲</div><div class="pcard-info"><strong>Forest Guard 2023</strong><span>All Shifts Papers</span></div></div>
+        <div class="pcard-tags"><span class="ptag" style="background:var(--green-l);color:var(--green)">PDF</span><span class="ptag" style="background:var(--blue-l);color:var(--blue2)">2023</span></div>
+        <button class="open-btn">App मध्ये उघडा 📖</button>
+      </div>
+      <div class="pcard" onclick="openPDF('pcmc','PCMC 2023 — सर्व पेपर','https://drive.google.com/file/d/1nUfQcLdmqV7djCTrxpsEsNoI39s4K1wq/preview')">
+        <div class="pcard-top"><div class="pcard-ic" style="background:var(--coral-l)">🏙️</div><div class="pcard-info"><strong>PCMC Papers 2023</strong><span>सर्व पेपर एकत्रित</span></div></div>
+        <div class="pcard-tags"><span class="ptag" style="background:var(--coral-l);color:var(--coral)">PDF</span><span class="ptag" style="background:var(--blue-l);color:var(--blue2)">2023</span></div>
+        <button class="open-btn">App मध्ये उघडा 📖</button>
+      </div>
+      <div class="pcard" onclick="openPDF('ibps','IBPS-TCS Pattern 2022','https://drive.google.com/file/d/10rr-BnjsHltLpX4d3btEWQWemI6nHOW7/preview')">
+        <div class="pcard-top"><div class="pcard-ic" style="background:var(--amber-l)">🏦</div><div class="pcard-info"><strong>IBPS-TCS 2022</strong><span>Questions & Answers</span></div></div>
+        <div class="pcard-tags"><span class="ptag" style="background:var(--amber-l);color:var(--amber)">PDF</span><span class="ptag" style="background:var(--blue-l);color:var(--blue2)">2022</span></div>
+        <button class="open-btn">App मध्ये उघडा 📖</button>
+      </div>
+      <div class="pcard" onclick="openEmbedded('talathi','Talathi Papers 2023 — 57 Shifts','https://drive.google.com/drive/folders/1DDGP8G-fuKBdcWq4kU97_XEEbmRqQor0?usp=drive_link')">
+        <div class="pcard-top"><div class="pcard-ic" style="background:var(--blue-l)">📄</div><div class="pcard-info"><strong>Talathi Papers 2023</strong><span>All 57 Shifts</span></div></div>
+        <div class="pcard-tags"><span class="ptag" style="background:var(--blue-l);color:var(--blue2)">57 Shifts</span><span class="ptag" style="background:var(--green-l);color:var(--green)">Drive</span></div>
+        <button class="open-btn">App मध्ये उघडा 📖</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATE BOARD -->
+<div class="sb-page" id="page-sb">
+  <div class="notes-top" style="flex-shrink:0">
+    <button class="vb-back" onclick="showPage('home')">← होम</button>
+    <span style="font-size:15px;font-weight:700">🏫 State Board Books</span>
+  </div>
+  <div class="sb-body">
+    <div class="sb-list">
+      <div class="sb-item active" onclick="showSB('history')"><span>🏛️</span> इतिहास</div>
+      <div class="sb-item" onclick="showSB('geography')"><span>🗺️</span> भूगोल</div>
+      <div class="sb-item" onclick="showSB('science')"><span>🔬</span> सामान्य विज्ञान</div>
+      <div class="sb-item" onclick="showSB('polity')"><span>⚖️</span> राज्यशास्त्र</div>
+      <div class="sb-item" onclick="showSB('edu')"><span>📖</span> शिक्षणशास्त्र</div>
+      <div class="sb-item" onclick="showSB('env')"><span>🌿</span> पर्यावरण</div>
+      <div class="sb-item" onclick="showSB('economics')"><span>💰</span> अर्थशास्त्र</div>
+      <div class="sb-item" onclick="showSB('sahkar')"><span>🤝</span> सहकार</div>
+    </div>
+    <div class="sb-content">
+      <div class="sb-frame-wrap">
+        <div class="sb-frame-bar">
+          <span id="sbTitle">🏛️ इतिहास — State Board</span>
+          <a id="sbExtLink" href="#" target="_blank" style="color:rgba(255,255,255,.8);font-size:12px;text-decoration:none">↗ नवीन Tab</a>
+        </div>
+        <iframe class="sb-iframe" id="sbFrame" src="https://www.yashacharajmarg.com/2024/04/blog-post_24.html" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF VIEWER -->
+<div class="pdf-viewer" id="page-pdf">
+  <div class="pdf-bar">
+    <button class="vb-back" onclick="pdfBack()">← मागे</button>
+    <span id="pdfTitle" style="font-size:14px;font-weight:600;flex:1"></span>
+    <a id="pdfExtBtn" href="#" target="_blank" class="vb-ext">↗ नवीन Tab</a>
+  </div>
+  <iframe class="pdf-frame" id="pdfFrame" allow="autoplay" allowfullscreen></iframe>
+</div>
+
+<!-- IFRAME VIEWER -->
+<div class="viewer-page" id="page-viewer">
+  <div class="viewer-bar">
+    <button class="vb-back" onclick="viewerBack()">← मागे</button>
+    <span class="vb-title" id="viewerTitle"></span>
+    <a id="viewerExt" href="#" target="_blank" class="vb-ext">↗ नवीन Tab</a>
+  </div>
+  <div id="viewerArea" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+    <iframe class="viewer-frame" id="viewerFrame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app-body -->
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const NOTES = {
+  history: {
+    label:'🏛️ इतिहास',
+    items:[
+      {id:'mh1', title:'महाराष्ट्राचा इतिहास', sub:'Ancient Maharashtra'},
+      {id:'mh2', title:'मराठा साम्राज्य', sub:'Maratha Empire'},
+      {id:'mh3', title:'स्वातंत्र्य चळवळ', sub:'Freedom Movement'},
+      {id:'mh4', title:'भारतीय राष्ट्रीय काँग्रेस', sub:'Indian National Congress'},
+    ]
+  },
+  geography: {
+    label:'🗺️ भूगोल',
+    items:[
+      {id:'geo1', title:'महाराष्ट्राचा भूगोल', sub:'Geography of Maharashtra'},
+      {id:'geo2', title:'भारताचे नद्या', sub:'Rivers of India'},
+      {id:'geo3', title:'हवामान विभाग', sub:'Climate Zones'},
+    ]
+  },
+  polity: {
+    label:'⚖️ राज्यशास्त्र',
+    items:[
+      {id:'pol1', title:'भारतीय राज्यघटना', sub:'Indian Constitution'},
+      {id:'pol2', title:'मूलभूत अधिकार', sub:'Fundamental Rights'},
+      {id:'pol3', title:'केंद्र-राज्य संबंध', sub:'Centre-State Relations'},
+    ]
+  },
+  science: {
+    label:'🔬 विज्ञान',
+    items:[
+      {id:'sci1', title:'भौतिकशास्त्र', sub:'Physics Basics'},
+      {id:'sci2', title:'रसायनशास्त्र', sub:'Chemistry Basics'},
+      {id:'sci3', title:'जीवशास्त्र', sub:'Biology Basics'},
+    ]
+  },
+  economics: {
+    label:'💰 अर्थशास्त्र',
+    items:[
+      {id:'eco1', title:'भारतीय अर्थव्यवस्था', sub:'Indian Economy'},
+      {id:'eco2', title:'पंचवार्षिक योजना', sub:'Five Year Plans'},
+    ]
+  },
+  marathi: {
+    label:'🔤 मराठी व्याकरण',
+    items:[
+      {id:'mar1', title:'संधी व समास', sub:'Sandhi & Samas'},
+      {id:'mar2', title:'विभक्ती प्रत्यय', sub:'Vibhakti'},
+      {id:'mar3', title:'अलंकार', sub:'Alankar'},
+    ]
+  }
+};
+
+const NOTE_CONTENT = {
+  mh1:`<h2>महाराष्ट्राचा इतिहास</h2>
+<h3>प्राचीन महाराष्ट्र</h3>
+<p>महाराष्ट्र हे भारताच्या पश्चिम भागात स्थित एक महत्त्वाचे राज्य आहे. प्राचीन काळापासून या प्रदेशाला समृद्ध इतिहास आहे.</p>
+<div class="imp">📌 महत्त्वाचे: सातवाहन राजवंश हा महाराष्ट्रातील पहिला महत्त्वाचा राजवंश मानला जातो (२३० BCE – २२० CE)</div>
+<h3>प्रमुख राजवंश</h3>
+<ul>
+  <li><b>सातवाहन</b> — महाराष्ट्राचा पहिला प्रमुख राजवंश</li>
+  <li><b>वाकाटक</b> — अजिंठा लेणी निर्माण</li>
+  <li><b>राष्ट्रकूट</b> — एलोरा लेणी, कैलास मंदिर</li>
+  <li><b>यादव</b> — देवगिरी राजधानी (आताचे औरंगाबाद)</li>
+  <li><b>बहमनी सल्तनत</b> — मुस्लिम राजवट सुरुवात</li>
+</ul>
+<h3>महत्त्वाच्या घटना</h3>
+<table class="note-table"><tr><th>वर्ष</th><th>घटना</th></tr>
+<tr><td>1296</td><td>अल्लाउद्दीन खिलजीचे देवगिरीवर आक्रमण</td></tr>
+<tr><td>1347</td><td>बहमनी सल्तनतची स्थापना</td></tr>
+<tr><td>1490</td><td>अहमदनगर निजामशाहीची स्थापना</td></tr>
+<tr><td>1627</td><td>छत्रपती शिवाजी महाराजांचा जन्म</td></tr>
+</table>
+<div class="tag">MPSC</div><div class="tag">Police Bharti</div><div class="tag">Important</div>`,
+
+  mh2:`<h2>मराठा साम्राज्य</h2>
+<h3>छत्रपती शिवाजी महाराज (1627–1680)</h3>
+<p>छत्रपती शिवाजी महाराज हे मराठा साम्राज्याचे संस्थापक होते. त्यांनी मुघल व आदिलशाही सत्तेविरुद्ध लढा दिला आणि स्वतंत्र हिंदवी स्वराज्य स्थापन केले.</p>
+<div class="imp">📌 रायगड हे मराठा साम्राज्याची राजधानी होती. शिवाजी महाराजांचा राज्याभिषेक ६ जून १६७४ रोजी झाला.</div>
+<h3>प्रमुख लढाया</h3>
+<ul>
+  <li><b>तोरणा किल्ला जिंकला</b> — 1646 (वय 16)</li>
+  <li><b>प्रतापगड लढाई</b> — 1659, अफझलखान वध</li>
+  <li><b>पन्हाळगड सुटका</b> — 1660, आग्रा सुटका 1666</li>
+  <li><b>सिंहगड लढाई</b> — 1670, तानाजी मालुसरे</li>
+</ul>
+<h3>अष्टप्रधान मंडळ</h3>
+<table class="note-table"><tr><th>पद</th><th>जबाबदारी</th></tr>
+<tr><td>पेशवा</td><td>पंतप्रधान</td></tr>
+<tr><td>अमात्य</td><td>वित्तमंत्री</td></tr>
+<tr><td>सचिव</td><td>परराष्ट्र व्यवहार</td></tr>
+<tr><td>सेनापती</td><td>लष्करप्रमुख</td></tr>
+<tr><td>मंत्री</td><td>राजाचे सल्लागार</td></tr>
+</table>`,
+
+  mh3:`<h2>स्वातंत्र्य चळवळ — महाराष्ट्र</h2>
+<h3>महत्त्वाचे नेते</h3>
+<ul>
+  <li><b>लोकमान्य बाळ गंगाधर टिळक</b> — "स्वराज्य हा माझा जन्मसिद्ध अधिकार आहे"</li>
+  <li><b>महात्मा ज्योतिराव फुले</b> — सत्यशोधक समाज स्थापना (1873)</li>
+  <li><b>डॉ. बाबासाहेब आंबेडकर</b> — भारतीय राज्यघटनेचे शिल्पकार</li>
+  <li><b>गोपाळ कृष्ण गोखले</b> — गांधीजींचे राजकीय गुरू</li>
+</ul>
+<div class="imp">📌 टिळकांनी 1893 मध्ये सार्वजनिक गणेशोत्सव सुरू केला — राष्ट्रीय एकतेसाठी</div>
+<h3>प्रमुख घटना</h3>
+<table class="note-table"><tr><th>वर्ष</th><th>घटना</th></tr>
+<tr><td>1885</td><td>भारतीय राष्ट्रीय काँग्रेस स्थापना (पुणे/मुंबई)</td></tr>
+<tr><td>1905</td><td>बंगाल फाळणी विरोध — स्वदेशी चळवळ</td></tr>
+<tr><td>1920</td><td>असहकार आंदोलन</td></tr>
+<tr><td>1942</td><td>छोडो भारत आंदोलन</td></tr>
+</table>`,
+
+  geo1:`<h2>महाराष्ट्राचा भूगोल</h2>
+<h3>स्थान व विस्तार</h3>
+<p>महाराष्ट्र हे भारताच्या पश्चिम-मध्य भागात स्थित आहे. क्षेत्रफळानुसार हे भारतातील तिसरे मोठे राज्य आहे (3,07,713 चौ.कि.मी.)</p>
+<div class="imp">📌 महाराष्ट्राची राजधानी: मुंबई (उपराजधानी: नागपूर). जिल्ह्यांची संख्या: 36</div>
+<h3>भौगोलिक विभाग</h3>
+<ul>
+  <li><b>कोकण</b> — पश्चिम किनारपट्टी, सह्याद्री ते समुद्र</li>
+  <li><b>देश (पुणे विभाग)</b> — सह्याद्रीच्या पूर्वेस</li>
+  <li><b>मराठवाडा</b> — गोदावरी खोरे</li>
+  <li><b>विदर्भ</b> — पूर्व महाराष्ट्र, वर्धा-वैनगंगा</li>
+</ul>
+<h3>प्रमुख नद्या</h3>
+<table class="note-table"><tr><th>नदी</th><th>उगम</th><th>विशेष</th></tr>
+<tr><td>गोदावरी</td><td>त्र्यंबकेश्वर, नाशिक</td><td>महाराष्ट्रातील सर्वात मोठी नदी</td></tr>
+<tr><td>कृष्णा</td><td>महाबळेश्वर</td><td>दक्षिण महाराष्ट्र</td></tr>
+<tr><td>भीमा</td><td>भीमाशंकर</td><td>कृष्णेची उपनदी</td></tr>
+<tr><td>तापी</td><td>मुलताई, मध्यप्रदेश</td><td>पश्चिमवाहिनी</td></tr>
+</table>`,
+
+  geo2:`<h2>भारताच्या नद्या</h2>
+<h3>हिमालयातून उगम पावणाऱ्या नद्या</h3>
+<ul>
+  <li><b>गंगा</b> — गंगोत्री, उत्तराखंड → बंगालचा उपसागर</li>
+  <li><b>यमुना</b> — यमुनोत्री → गंगेला प्रयागराजमध्ये मिळते</li>
+  <li><b>ब्रह्मपुत्रा</b> — तिबेट → आसाम → बांगलादेश</li>
+  <li><b>सिंधू</b> — तिबेट → पाकिस्तान</li>
+</ul>
+<h3>द्वीपकल्पातून उगम पावणाऱ्या नद्या</h3>
+<ul>
+  <li><b>गोदावरी</b> — नाशिक → बंगालचा उपसागर (दक्षिण गंगा)</li>
+  <li><b>कृष्णा</b> — महाबळेश्वर → बंगालचा उपसागर</li>
+  <li><b>कावेरी</b> — कर्नाटक → बंगालचा उपसागर</li>
+  <li><b>नर्मदा</b> — अमरकंटक → अरबी समुद्र (पश्चिमवाहिनी)</li>
+</ul>`,
+
+  pol1:`<h2>भारतीय राज्यघटना</h2>
+<h3>महत्त्वाचे तथ्य</h3>
+<ul>
+  <li>राज्यघटना स्वीकारण्यात आली: <b>26 नोव्हेंबर 1949</b></li>
+  <li>लागू झाली: <b>26 जानेवारी 1950</b></li>
+  <li>शिल्पकार: <b>डॉ. बाबासाहेब आंबेडकर</b></li>
+  <li>मूळ अनुच्छेद: <b>395</b> | सध्या: <b>448+</b></li>
+  <li>मूळ अनुसूची: <b>8</b> | सध्या: <b>12</b></li>
+</ul>
+<div class="imp">📌 जगातील सर्वात मोठी लिखित राज्यघटना — भारताची राज्यघटना आहे</div>
+<h3>मूलभूत अधिकार (अनुच्छेद 12–35)</h3>
+<table class="note-table"><tr><th>अनुच्छेद</th><th>अधिकार</th></tr>
+<tr><td>14</td><td>समतेचा अधिकार</td></tr>
+<tr><td>19</td><td>स्वातंत्र्याचा अधिकार (6 स्वातंत्र्ये)</td></tr>
+<tr><td>21</td><td>जीवन व व्यक्तिगत स्वातंत्र्य</td></tr>
+<tr><td>25-28</td><td>धर्मस्वातंत्र्याचा अधिकार</td></tr>
+<tr><td>32</td><td>घटनात्मक उपायांचा अधिकार (Dr. Ambedkar — "Heart of Constitution")</td></tr>
+</table>`,
+
+  pol2:`<h2>मूलभूत अधिकार</h2>
+<h3>6 मूलभूत अधिकार</h3>
+<ul>
+  <li><b>समतेचा अधिकार</b> (अनुच्छेद 14–18)</li>
+  <li><b>स्वातंत्र्याचा अधिकार</b> (अनुच्छेद 19–22)</li>
+  <li><b>शोषणाविरुद्ध अधिकार</b> (अनुच्छेद 23–24)</li>
+  <li><b>धर्मस्वातंत्र्याचा अधिकार</b> (अनुच्छेद 25–28)</li>
+  <li><b>सांस्कृतिक व शैक्षणिक अधिकार</b> (अनुच्छेद 29–30)</li>
+  <li><b>घटनात्मक उपायांचा अधिकार</b> (अनुच्छेद 32)</li>
+</ul>
+<div class="imp">📌 मालमत्तेचा अधिकार (अनुच्छेद 19(f)) 44व्या घटनादुरुस्तीने 1978 मध्ये काढण्यात आला</div>`,
+
+  sci1:`<h2>भौतिकशास्त्र — महत्त्वाचे नियम</h2>
+<h3>न्यूटनचे गतीचे नियम</h3>
+<ul>
+  <li><b>पहिला नियम (जडत्व)</b>: बाह्य बल नसल्यास वस्तू तिच्या स्थितीत कायम राहते</li>
+  <li><b>दुसरा नियम</b>: F = ma (बल = वस्तुमान × प्रवेग)</li>
+  <li><b>तिसरा नियम</b>: प्रत्येक क्रियेला समान व विरुद्ध प्रतिक्रिया असते</li>
+</ul>
+<div class="imp">📌 गुरुत्वाकर्षण: g = 9.8 m/s² | प्रकाशाचा वेग: 3×10⁸ m/s</div>
+<h3>SI एकके</h3>
+<table class="note-table"><tr><th>राशी</th><th>एकक</th><th>चिन्ह</th></tr>
+<tr><td>लांबी</td><td>मीटर</td><td>m</td></tr>
+<tr><td>वस्तुमान</td><td>किलोग्रॅम</td><td>kg</td></tr>
+<tr><td>वेळ</td><td>सेकंद</td><td>s</td></tr>
+<tr><td>विद्युत प्रवाह</td><td>ॲम्पिअर</td><td>A</td></tr>
+<tr><td>तापमान</td><td>केल्विन</td><td>K</td></tr>
+</table>`,
+
+  sci2:`<h2>रसायनशास्त्र — महत्त्वाचे मुद्दे</h2>
+<h3>आवर्त सारणी (Periodic Table)</h3>
+<ul>
+  <li>एकूण मूलद्रव्ये: <b>118</b></li>
+  <li>मेंदेलीव्हने आवर्त सारणी तयार केली: <b>1869</b></li>
+  <li>आधुनिक आवर्त सारणी — Henry Moseley</li>
+</ul>
+<div class="imp">📌 सर्वात हलके मूलद्रव्य: हायड्रोजन (H) | सर्वात जड: ओस्मियम (Os)</div>
+<h3>महत्त्वाचे संयुगे</h3>
+<table class="note-table"><tr><th>संयुग</th><th>सूत्र</th><th>उपयोग</th></tr>
+<tr><td>पाणी</td><td>H₂O</td><td>जीवनावश्यक</td></tr>
+<tr><td>मीठ</td><td>NaCl</td><td>अन्न, औद्योगिक</td></tr>
+<tr><td>कार्बन डायऑक्साइड</td><td>CO₂</td><td>प्रकाशसंश्लेषण</td></tr>
+<tr><td>अमोनिया</td><td>NH₃</td><td>खते</td></tr>
+</table>`,
+
+  eco1:`<h2>भारतीय अर्थव्यवस्था</h2>
+<h3>GDP व आर्थिक विकास</h3>
+<p>भारत जगातील पाचव्या क्रमांकाची अर्थव्यवस्था आहे (GDP नुसार). भारताची अर्थव्यवस्था मिश्र अर्थव्यवस्था आहे.</p>
+<div class="imp">📌 भारताचे आर्थिक वर्ष: 1 एप्रिल ते 31 मार्च | पहिली पंचवार्षिक योजना: 1951–56</div>
+<h3>क्षेत्रे</h3>
+<ul>
+  <li><b>प्राथमिक क्षेत्र</b> — शेती, खाणकाम, मासेमारी</li>
+  <li><b>द्वितीय क्षेत्र</b> — उत्पादन, बांधकाम</li>
+  <li><b>तृतीय क्षेत्र</b> — सेवा, व्यापार, बँकिंग</li>
+</ul>
+<h3>महत्त्वाच्या संस्था</h3>
+<table class="note-table"><tr><th>संस्था</th><th>स्थापना</th><th>कार्य</th></tr>
+<tr><td>RBI</td><td>1935</td><td>मध्यवर्ती बँक</td></tr>
+<tr><td>SEBI</td><td>1988</td><td>शेअर बाजार नियंत्रण</td></tr>
+<tr><td>NITI Aayog</td><td>2015</td><td>नियोजन आयोग</td></tr>
+</table>`,
+
+  mar1:`<h2>मराठी व्याकरण — संधी व समास</h2>
+<h3>संधी (Sandhi)</h3>
+<p>दोन शब्दांमधील दोन ध्वनींचे एकत्रीकरण म्हणजे संधी.</p>
+<ul>
+  <li><b>स्वरसंधी</b> — दोन स्वरांचे मिलन: राम + अयन = रामायण</li>
+  <li><b>व्यंजनसंधी</b> — व्यंजन + स्वर: जगत् + ईश = जगदीश</li>
+  <li><b>विसर्गसंधी</b> — विसर्गाचा बदल: मन: + रथ = मनोरथ</li>
+</ul>
+<div class="imp">📌 संधी म्हणजे जोडणे, विग्रह म्हणजे वेगळे करणे</div>
+<h3>समास (Samas)</h3>
+<table class="note-table"><tr><th>समास</th><th>उदाहरण</th><th>विशेष</th></tr>
+<tr><td>तत्पुरुष</td><td>राजपुत्र = राजाचा पुत्र</td><td>उत्तर पद प्रधान</td></tr>
+<tr><td>कर्मधारय</td><td>नीलकमल = नीळे असे कमळ</td><td>विशेषण + नाम</td></tr>
+<tr><td>द्विगू</td><td>त्रिभुवन = तीन भुवने</td><td>संख्या + नाम</td></tr>
+<tr><td>द्वंद्व</td><td>रात्रंदिवस</td><td>दोन्ही पदे प्रधान</td></tr>
+<tr><td>बहुव्रीहि</td><td>चतुर्भुज = चार भुजा असलेला</td><td>बाह्य अर्थ</td></tr>
+</table>`,
+
+  mar2:`<h2>विभक्ती प्रत्यय (Vibhakti)</h2>
+<table class="note-table"><tr><th>विभक्ती</th><th>नाव</th><th>प्रत्यय</th><th>उदाहरण</th></tr>
+<tr><td>1</td><td>प्रथमा (कर्ता)</td><td>—</td><td>राम जातो</td></tr>
+<tr><td>2</td><td>द्वितीया (कर्म)</td><td>ला, स</td><td>रामाला पाहतो</td></tr>
+<tr><td>3</td><td>तृतीया (करण)</td><td>ने, शी</td><td>काठीने मारतो</td></tr>
+<tr><td>4</td><td>चतुर्थी (संप्रदान)</td><td>ला, साठी</td><td>रामासाठी</td></tr>
+<tr><td>5</td><td>पंचमी (अपादान)</td><td>हून, पासून</td><td>झाडाहून पडला</td></tr>
+<tr><td>6</td><td>षष्ठी (संबंध)</td><td>चा, ची, चे</td><td>रामाचे घर</td></tr>
+<tr><td>7</td><td>सप्तमी (अधिकरण)</td><td>त, मध्ये</td><td>घरात</td></tr>
+<tr><td>8</td><td>संबोधन</td><td>अरे, हे</td><td>अरे राम!</td></tr>
+</table>`,
+};
+
+// ═══════════════ QUIZ DATA ═══════════════
+const QUIZ_DATA = {
+  mpsc:[
+    {q:"MPSC म्हणजे काय?", opts:["Maharashtra Public Service Commission","Madhya Pradesh Service Commission","Municipal Public Service Corporation","Maharashtra Police Service Commission"], ans:0, exp:"MPSC — Maharashtra Public Service Commission. महाराष्ट्र लोकसेवा आयोग राज्य सेवांसाठी परीक्षा घेतो."},
+    {q:"महाराष्ट्राच्या राज्यपालांची नियुक्ती कोण करते?", opts:["मुख्यमंत्री","पंतप्रधान","राष्ट्रपती","सर्वोच्च न्यायालय"], ans:2, exp:"राज्यघटनेच्या अनुच्छेद 155 नुसार राज्यपालांची नियुक्ती राष्ट्रपती करतात."},
+    {q:"महाराष्ट्राची राजधानी कोणती?", opts:["पुणे","नागपूर","मुंबई","औरंगाबाद"], ans:2, exp:"मुंबई ही महाराष्ट्राची राजधानी आहे. नागपूर उपराजधानी आहे."},
+    {q:"छत्रपती शिवाजी महाराजांचे जन्मस्थान कोणते?", opts:["रायगड","पुणे","शिवनेरी किल्ला","प्रतापगड"], ans:2, exp:"छत्रपती शिवाजी महाराजांचा जन्म 19 फेब्रुवारी 1630 रोजी शिवनेरी किल्ल्यावर झाला."},
+    {q:"महाराष्ट्रातील सर्वात लांब नदी कोणती?", opts:["कृष्णा","भीमा","गोदावरी","तापी"], ans:2, exp:"गोदावरी ही महाराष्ट्रातील सर्वात लांब नदी आहे. ती त्र्यंबकेश्वर, नाशिकजवळ उगम पावते."},
+    {q:"MPSC प्रीलिम परीक्षेत किती पेपर असतात?", opts:["1","2","3","4"], ans:1, exp:"MPSC राज्यसेवा प्रीलिम परीक्षेत 2 पेपर असतात — GS Paper 1 आणि CSAT Paper 2."},
+  ],
+  police:[
+    {q:"IPC म्हणजे काय?", opts:["Indian Police Code","Indian Penal Code","Indian Public Code","Indian Postal Code"], ans:1, exp:"IPC — Indian Penal Code (भारतीय दंड संहिता). 1860 मध्ये लागू झाली."},
+    {q:"पोलीस भरतीसाठी किमान उंची (पुरुष) किती असते?", opts:["158 cm","162 cm","165 cm","170 cm"], ans:2, exp:"महाराष्ट्र पोलीस भरतीसाठी पुरुष उमेदवारांची किमान उंची 165 cm आहे."},
+    {q:"CrPC म्हणजे काय?", opts:["Criminal Procedure Code","Central Revenue Code","Civil Rights Code","Criminal Rights Code"], ans:0, exp:"CrPC — Code of Criminal Procedure (फौजदारी प्रक्रिया संहिता). 1973 मध्ये लागू झाली."},
+    {q:"FIR म्हणजे काय?", opts:["Final Investigation Report","First Information Report","Formal Investigation Record","First Internal Report"], ans:1, exp:"FIR — First Information Report. गुन्ह्याची पोलीस स्टेशनला दिली जाणारी पहिली माहिती."},
+    {q:"भारतात पोलीस दिन कधी साजरा होतो?", opts:["1 जानेवारी","15 ऑगस्ट","21 ऑक्टोबर","26 नोव्हेंबर"], ans:2, exp:"21 ऑक्टोबर हा 'पोलीस स्मृती दिन' म्हणून साजरा केला जातो. 1959 च्या चीनी आक्रमणात शहीद झालेल्या पोलिसांच्या स्मरणार्थ."},
+  ],
+  gk:[
+    {q:"भारताचे राष्ट्रीय फूल कोणते?", opts:["गुलाब","कमळ","सूर्यफूल","जास्वंद"], ans:1, exp:"कमळ (Lotus) हे भारताचे राष्ट्रीय फूल आहे. ते पवित्रता व समृद्धीचे प्रतीक आहे."},
+    {q:"भारताचे पहिले पंतप्रधान कोण होते?", opts:["सरदार पटेल","डॉ. राजेंद्र प्रसाद","जवाहरलाल नेहरू","डॉ. आंबेडकर"], ans:2, exp:"पंडित जवाहरलाल नेहरू भारताचे पहिले पंतप्रधान होते (1947–1964)."},
+    {q:"भारतीय राज्यघटना कधी लागू झाली?", opts:["15 ऑगस्ट 1947","26 नोव्हेंबर 1949","26 जानेवारी 1950","2 ऑक्टोबर 1950"], ans:2, exp:"भारतीय राज्यघटना 26 जानेवारी 1950 रोजी लागू झाली म्हणून 26 जानेवारीला प्रजासत्ताक दिन साजरा होतो."},
+    {q:"भारताचे राष्ट्रगीत कोणी लिहिले?", opts:["बंकिमचंद्र चट्टोपाध्याय","रवींद्रनाथ टागोर","महात्मा गांधी","सुभाषचंद्र बोस"], ans:1, exp:"'जन गण मन' हे राष्ट्रगीत रवींद्रनाथ टागोरांनी लिहिले. 1950 मध्ये राष्ट्रगीत म्हणून स्वीकारले."},
+    {q:"ताजमहाल कोणी बांधला?", opts:["अकबर","जहांगीर","शाहजहान","औरंगजेब"], ans:2, exp:"ताजमहाल मुघल बादशाह शाहजहानने 1631–1653 दरम्यान त्याची पत्नी मुमताज महालच्या स्मरणार्थ बांधला."},
+    {q:"भारतातील सर्वात मोठी नदी कोणती?", opts:["यमुना","गंगा","ब्रह्मपुत्रा","सिंधू"], ans:2, exp:"लांबीने ब्रह्मपुत्रा भारतातील सर्वात लांब नदी आहे (2900 km). परंतु जलप्रवाहाने गंगा मोठी मानली जाते."},
+  ],
+  history:[
+    {q:"सातवाहन राजवंशाची राजधानी कोणती होती?", opts:["पाटलीपुत्र","प्रतिष्ठान (पैठण)","राजगृह","उज्जयिनी"], ans:1, exp:"सातवाहन राजवंशाची राजधानी प्रतिष्ठान (आताचे पैठण, औरंगाबाद जिल्हा) होती."},
+    {q:"1857 चा उठाव कुठून सुरू झाला?", opts:["दिल्ली","लखनऊ","मेरठ","कानपूर"], ans:2, exp:"1857 चा स्वातंत्र्य उठाव 10 मे 1857 रोजी मेरठ (Meerut) येथून सुरू झाला."},
+    {q:"'स्वराज्य हा माझा जन्मसिद्ध अधिकार आहे' — कोणाचे वचन?", opts:["महात्मा गांधी","गोखले","लोकमान्य टिळक","नेहरू"], ans:2, exp:"'स्वराज्य हा माझा जन्मसिद्ध अधिकार आहे आणि तो मी मिळवणारच' — लोकमान्य बाळ गंगाधर टिळक."},
+    {q:"गांधीजींनी दांडी मार्च कधी केला?", opts:["1920","1930","1932","1942"], ans:1, exp:"दांडी मार्च (मीठाचा सत्याग्रह) 12 मार्च 1930 रोजी सुरू झाला आणि 6 एप्रिल 1930 ला दांडीला पोहोचला."},
+  ],
+  science:[
+    {q:"पाण्याचे रासायनिक सूत्र काय आहे?", opts:["HO","H2O","H2O2","OH"], ans:1, exp:"पाण्याचे रासायनिक सूत्र H₂O आहे — दोन हायड्रोजन व एक ऑक्सिजन अणू."},
+    {q:"प्रकाशाचा वेग किती आहे?", opts:["2×10⁸ m/s","3×10⁸ m/s","4×10⁸ m/s","1×10⁸ m/s"], ans:1, exp:"प्रकाशाचा वेग 3×10⁸ m/s (3,00,000 km/s) आहे. हे भौतिकशास्त्रातील मूलभूत स्थिरांक आहे."},
+    {q:"पृथ्वीवरील गुरुत्वाकर्षण प्रवेग किती आहे?", opts:["8.9 m/s²","9.8 m/s²","10.8 m/s²","7.8 m/s²"], ans:1, exp:"पृथ्वीवरील गुरुत्वाकर्षण प्रवेग g = 9.8 m/s² (अंदाजे 10 m/s²)."},
+    {q:"DNA चे पूर्ण नाव काय?", opts:["Deoxyribo Nucleic Acid","Di Nucleic Acid","Double Nucleic Acid","Deoxyribose Nucleic Acid"], ans:0, exp:"DNA — Deoxyribonucleic Acid. हे सर्व सजीवांमधील अनुवंशिक माहिती साठवते."},
+  ],
+};
+
+const SB_LINKS = {
+  history:{title:'🏛️ इतिहास', url:'https://www.yashacharajmarg.com/2024/04/blog-post_24.html'},
+  geography:{title:'🗺️ भूगोल', url:'https://www.yashacharajmarg.com/2024/04/blog-post_7.html'},
+  science:{title:'🔬 सामान्य विज्ञान', url:'https://www.yashacharajmarg.com/2024/04/science.html'},
+  polity:{title:'⚖️ राज्यशास्त्र', url:'https://www.yashacharajmarg.com/2024/04/blog-post_41.html'},
+  edu:{title:'📖 शिक्षणशास्त्र', url:'https://www.yashacharajmarg.com/2024/04/blog-post_51.html'},
+  env:{title:'🌿 पर्यावरण', url:'https://www.yashacharajmarg.com/2024/04/blog-post_33.html'},
+  economics:{title:'💰 अर्थशास्त्र', url:'https://www.yashacharajmarg.com/2024/04/blog-post_96.html'},
+  sahkar:{title:'🤝 सहकार', url:'https://www.yashacharajmarg.com/2024/04/blog-post_37.html'},
+};
+
+// ═══════════════════════════════════════════
+// PAGE NAVIGATION
+// ═══════════════════════════════════════════
+let prevPage = 'home';
+
+function showPage(p){
+  document.querySelectorAll('.home-page,.notes-page,.quiz-page,.papers-page,.sb-page,.pdf-viewer,.viewer-page')
+    .forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p)?.classList.add('active');
+  document.getElementById('nav-'+p)?.classList.add('active');
+  if(p!=='pdf' && p!=='viewer') prevPage = p;
+  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+// NOTES
+// ═══════════════════════════════════════════
+function buildNotesList(){
+  const list = document.getElementById('notesList');
+  list.innerHTML = '';
+  Object.entries(NOTES).forEach(([cat, data])=>{
+    const g = document.createElement('div');
+    g.className = 'notes-group';
+    g.textContent = data.label;
+    list.appendChild(g);
+    data.items.forEach(item=>{
+      const d = document.createElement('div');
+      d.className = 'note-item';
+      d.id = 'ni-'+item.id;
+      d.innerHTML = `${item.title}<div class="ni2">${item.sub}</div>`;
+      d.onclick = ()=> loadNote(item.id);
+      list.appendChild(d);
+    });
+  });
+}
+
+function loadNote(id){
+  document.querySelectorAll('.note-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('ni-'+id)?.classList.add('active');
+  document.getElementById('noteContent').innerHTML = NOTE_CONTENT[id] || `<h2>Note</h2><p>Content coming soon…</p>`;
+}
+
+function openNote(cat, id){
+  showPage('notes');
+  buildNotesList();
+  setTimeout(()=>loadNote(id), 50);
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+let qState = {questions:[], idx:0, score:0, answered:false, name:''};
+
+function toggleCat(el){
+  const sub = el.nextElementSibling;
+  sub.classList.toggle('open');
+  el.querySelector('span').textContent = sub.classList.contains('open') ? '▲' : '▼';
+}
+
+function startQuiz(name){
+  const qs = QUIZ_DATA[name];
+  if(!qs){ alert('Quiz coming soon!'); return; }
+  qState = {questions:[...qs].sort(()=>Math.random()-.5), idx:0, score:0, answered:false, name};
+  showPage('quiz');
+  document.getElementById('quizTopInfo').textContent = name.toUpperCase()+' — '+qs.length+' Questions';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const m = document.getElementById('quizMain');
+  const {questions, idx, score} = qState;
+  if(idx >= questions.length){ showResult(); return; }
+  const q = questions[idx];
+  const pct = Math.round((idx/questions.length)*100);
+  m.innerHTML = `
+    <div class="qcard">
+      <div class="q-meta">
+        <span class="q-num">प्रश्न ${idx+1} / ${questions.length}</span>
+        <span class="q-score">गुण: ${score}</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="q-text" style="margin-top:16px">${q.q}</div>
+      <div class="q-opts" id="qopts">
+        ${q.opts.map((o,i)=>`<button class="qopt" onclick="answerQ(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="q-explain" id="qexp">💡 ${q.exp}</div>
+      <div class="q-nav">
+        <button class="qbtn" id="qnextBtn" onclick="nextQ()" style="display:none">पुढे →</button>
+      </div>
+    </div>`;
+  qState.answered = false;
+}
+
+function answerQ(i){
+  if(qState.answered) return;
+  qState.answered = true;
+  const q = qState.questions[qState.idx];
+  const opts = document.querySelectorAll('.qopt');
+  opts.forEach((o,j)=>{
+    o.disabled = true;
+    if(j===q.ans) o.classList.add('correct');
+    else if(j===i) o.classList.add('wrong');
+  });
+  if(i===q.ans) qState.score++;
+  document.getElementById('qexp').classList.add('show');
+  document.getElementById('qnextBtn').style.display = 'block';
+}
+
+function nextQ(){
+  qState.idx++;
+  renderQuestion();
+}
+
+function showResult(){
+  const {score, questions, name} = qState;
+  const pct = Math.round((score/questions.length)*100);
+  const emoji = pct>=80?'🏆':pct>=60?'😊':pct>=40?'📚':'💪';
+  const msg = pct>=80?'उत्कृष्ट! शाबास!':pct>=60?'चांगले! आणखी सराव करा.':pct>=40?'ठीक आहे. अधिक अभ्यास करा.':'पुन्हा प्रयत्न करा!';
+  document.getElementById('quizMain').innerHTML = `
+    <div class="result-card">
+      <div class="ri">${emoji}</div>
+      <h2>${msg}</h2>
+      <div class="score-big">${score}/${questions.length}</div>
+      <div style="font-size:15px;color:var(--muted);margin:8px 0">${pct}% बरोबर</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div style="display:flex;gap:12px;margin-top:24px;justify-content:center;flex-wrap:wrap">
+        <button class="qbtn" onclick="startQuiz('${name}')">🔄 पुन्हा खेळा</button>
+        <button class="qbtn sec" onclick="showPage('home')">🏠 होम</button>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// PDF VIEWER
+// ═══════════════════════════════════════════
+function openPDF(id, title, url){
+  document.getElementById('pdfTitle').textContent = title;
+  document.getElementById('pdfFrame').src = url;
+  document.getElementById('pdfExtBtn').href = url.replace('/preview','');
+  showPage('pdf');
+}
+
+function openEmbedded(id, title, url){
+  showPage('viewer');
+  document.getElementById('viewerTitle').textContent = title;
+  document.getElementById('viewerFrame').src = url;
+  document.getElementById('viewerExt').href = url;
+}
+
+function pdfBack(){ showPage(prevPage||'home'); }
+function viewerBack(){ showPage(prevPage||'home'); }
+
+// ═══════════════════════════════════════════
+// STATE BOARD
+// ═══════════════════════════════════════════
+function showSB(key){
+  showPage('sb');
+  const d = SB_LINKS[key];
+  if(!d) return;
+  document.getElementById('sbTitle').textContent = d.title + ' — State Board';
+  document.getElementById('sbFrame').src = d.url;
+  document.getElementById('sbExtLink').href = d.url;
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
+  const items = document.querySelectorAll('.sb-item');
+  const keys = Object.keys(SB_LINKS);
+  const idx = keys.indexOf(key);
+  if(items[idx]) items[idx].classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════
+const SEARCH_INDEX = [
+  {title:'MPSC Quiz',icon:'📘',action:()=>startQuiz('mpsc')},
+  {title:'Police Bharti Quiz',icon:'👮',action:()=>startQuiz('police')},
+  {title:'सामान्य ज्ञान Quiz',icon:'⭐',action:()=>startQuiz('gk')},
+  {title:'इतिहास Quiz',icon:'🏛️',action:()=>startQuiz('history')},
+  {title:'विज्ञान Quiz',icon:'🔬',action:()=>startQuiz('science')},
+  {title:'इतिहास Notes',icon:'🏛️',action:()=>openNote('history','mh1')},
+  {title:'मराठा साम्राज्य Notes',icon:'🏛️',action:()=>openNote('history','mh2')},
+  {title:'भूगोल Notes',icon:'🗺️',action:()=>openNote('geography','geo1')},
+  {title:'राज्यशास्त्र Notes',icon:'⚖️',action:()=>openNote('polity','pol1')},
+  {title:'मूलभूत अधिकार',icon:'⚖️',action:()=>openNote('polity','pol2')},
+  {title:'विज्ञान Notes',icon:'🔬',action:()=>openNote('science','sci1')},
+  {title:'अर्थशास्त्र Notes',icon:'💰',action:()=>openNote('economics','eco1')},
+  {title:'मराठी व्याकरण Notes',icon:'🔤',action:()=>openNote('marathi','mar1')},
+  {title:'विभक्ती प्रत्यय',icon:'🔤',action:()=>openNote('marathi','mar2')},
+  {title:'Forest Guard Papers',icon:'🌲',action:()=>openPDF('fg','Forest Guard 2023','https://drive.google.com/file/d/1SoS7OssiPVFKDTNCXTdP-JQ-KrfgBGNw/preview')},
+  {title:'PCMC Papers',icon:'🏙️',action:()=>openPDF('pcmc','PCMC 2023','https://drive.google.com/file/d/1nUfQcLdmqV7djCTrxpsEsNoI39s4K1wq/preview')},
+  {title:'IBPS Papers',icon:'🏦',action:()=>openPDF('ibps','IBPS-TCS 2022','https://drive.google.com/file/d/10rr-BnjsHltLpX4d3btEWQWemI6nHOW7/preview')},
+  {title:'State Board इतिहास',icon:'🏫',action:()=>showSB('history')},
+  {title:'State Board भूगोल',icon:'🏫',action:()=>showSB('geography')},
+  {title:'State Board विज्ञान',icon:'🏫',action:()=>showSB('science')},
+  {title:'State Board राज्यशास्त्र',icon:'🏫',action:()=>showSB('polity')},
+  {title:'Question Papers',icon:'📝',action:()=>showPage('papers')},
+];
+
+function doSearch(q){
+  const d = document.getElementById('sdrop');
+  if(!q||q.length<2){d.style.display='none';return;}
+  const res = SEARCH_INDEX.filter(s=>s.title.toLowerCase().includes(q.toLowerCase()));
+  if(!res.length){d.style.display='none';return;}
+  d.innerHTML = res.slice(0,8).map((r,i)=>`<div class="si" onclick="runSearch(${i},'${q}')"><span>${r.icon}</span>${r.title}</div>`).join('');
+  d._results = res;
+  d.style.display = 'block';
+}
+
+function runSearch(i, q){
+  const res = SEARCH_INDEX.filter(s=>s.title.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('sdrop').style.display='none';
+  document.getElementById('sInput').value='';
+  res[i]?.action();
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+buildNotesList();
+loadNote('mh1');
+showPage('home');
+</script>
+</body>
+</html>
